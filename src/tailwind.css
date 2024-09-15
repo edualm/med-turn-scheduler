@@ -1,0 +1,22 @@
+/* src/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles to handle iOS Safari scroll issues */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    overflow: auto;
+    max-height: 100%;
+}
