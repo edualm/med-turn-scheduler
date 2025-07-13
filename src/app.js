@@ -1,5 +1,3 @@
-// src/App.js
-import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import TimeInput from './components/TimeInput';
 import PeopleSelector from './components/PeopleSelector';
@@ -64,8 +62,12 @@ const App = () => {
         }
     }, [numPeople, startTime, endTime]);
 
+    // Footer text with current year
+    const footerText = `© 2024 - ${new Date().getFullYear()} Eduardo Almeida`;
+    const footerLink = "https://edr.io";
+
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen flex-col">
             <div className="container mx-4 md:mx-auto p-6 bg-white shadow-md rounded-lg max-w-lg overflow-hidden">
                 <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">🏥 Agendamento</h1>
 
@@ -91,6 +93,9 @@ const App = () => {
                     />
                 )}
             </div>
+            <footer className="mt-8 text-center text-gray-500 text-sm">
+                <a href={footerLink} target="_blank" rel="noopener noreferrer">{footerText}</a>
+            </footer>
         </div>
     );
 };
