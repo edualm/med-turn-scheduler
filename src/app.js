@@ -15,7 +15,7 @@ export const getCurrentTime = () => {
 };
 
 const App = () => {
-    const [startTime, setStartTime] = useState(getCurrentTime());
+    const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [numPeople, setNumPeople] = useState(0);
     const [schedule, setSchedule] = useState([]);
@@ -97,6 +97,13 @@ const App = () => {
         checkPwa();
         window.addEventListener('resize', checkPwa);
         return () => window.removeEventListener('resize', checkPwa);
+    }, []);
+
+    // Set startTime to current time on client after mount
+    useEffect(() => {
+        if (!startTime) {
+            setStartTime(getCurrentTime());
+        }
     }, []);
 
     // Footer text with current year
