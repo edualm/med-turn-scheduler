@@ -16,6 +16,7 @@ const App = () => {
     const [schedule, setSchedule] = useState([]);
     const [scheduleCalculated, setScheduleCalculated] = useState(false);
     const [error, setError] = useState('');
+    const [isPwaMode, setIsPwaMode] = useState(false);
 
     const timeToDate = (time) => {
         if (!/^\d{2}:\d{2}$/.test(time)) return null;
@@ -31,27 +32,27 @@ const App = () => {
         setError('');
         if (!startTime || !endTime) {
             setError('Por favor, preencha ambos os horários.');
+            setNumPeople(0);
             return;
         }
         if (isNaN(numPeople) || numPeople <= 0) {
             setError('O número de pessoas deve ser maior que zero.');
+            setNumPeople(0);
             return;
         }
         const start = timeToDate(startTime);
         const end = timeToDate(endTime);
         if (!start || !end) {
             setError('Horário inválido. Use o formato HH:mm.');
+            setNumPeople(0);
             return;
         }
         let adjustedEnd = new Date(end);
-        if (adjustedEnd < start) {
+        // If end is before or exactly equal to start, roll over to next day
+        if (adjustedEnd <= start) {
             adjustedEnd.setDate(adjustedEnd.getDate() + 1);
         }
         const totalMinutes = (adjustedEnd - start) / (1000 * 60);
-        if (totalMinutes <= 0) {
-            setError('O horário de fim deve ser após o início.');
-            return;
-        }
         const turns = totalMinutes / numPeople;
         const generatedNames = Array.from({ length: numPeople }, (_, i) => `Pessoa ${i + 1}`);
         const newSchedule = generatedNames.map((person, index) => {
@@ -83,18 +84,31 @@ const App = () => {
         // eslint-disable-next-line
     }, [numPeople, startTime, endTime]);
 
+    useEffect(() => {
+        const checkPwa = () => {
+            const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            setIsPwaMode(standalone);
+        };
+        checkPwa();
+        window.addEventListener('resize', checkPwa);
+        return () => window.removeEventListener('resize', checkPwa);
+    }, []);
+
     // Footer text with current year
     const footerText = `© 2024 - ${new Date().getFullYear()} Eduardo Almeida`;
-    const footerLink = "https://edr.io";
+    const footerLink = "https://eduardo.engineer";
 
     return (
-        <div className="flex items-center justify-center min-h-screen flex-col">
-            <div className="container mx-4 md:mx-auto p-6 bg-white shadow-md rounded-lg max-w-lg overflow-hidden">
-                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">🏥 Agendamento</h1>
+        <div className="flex items-center justify-center min-h-screen flex-col pb-safe pt-safe">
+            <div className="container mx-2 md:mx-auto p-6 bg-white shadow-lg rounded-2xl max-w-md w-full overflow-hidden">
+                <h1 className="text-4xl font-extrabold text-center mb-0 text-indigo-700 tracking-tight">🏥 Agendamento</h1>
+                <div className="flex justify-end mb-4">
+                    <span className="text-sm text-indigo-600 font-medium tracking-tight pr-1">de turno</span>
+                </div>
                 {!scheduleCalculated && (
                     <div>
                         {error && (
-                            <div className="mb-4 text-red-600 text-sm" role="alert">{error}</div>
+                            <div className="mb-4 text-red-600 text-base font-medium rounded-lg bg-red-50 p-3 shadow-sm" role="alert">{error}</div>
                         )}
                         <TimeInput 
                             startTime={startTime} 
@@ -104,19 +118,28 @@ const App = () => {
                         />
                         <PeopleSelector 
                             numPeople={numPeople} 
-                            handleNumPeopleSelection={setNumPeople} 
+                            handleNumPeopleSelection={(value) => {
+                                setNumPeople(value);
+                                setError('');
+                            }} 
+                            disabled={!startTime || !endTime}
                         />
                     </div>
                 )}
                 {scheduleCalculated && (
-                    <Schedule 
-                        schedule={schedule} 
-                        resetSchedule={resetSchedule} 
-                    />
+                    <div className="space-y-4 animate-fade-in">
+                        <Schedule 
+                            schedule={schedule} 
+                            resetSchedule={resetSchedule} 
+                        />
+                    </div>
                 )}
             </div>
-            <footer className="mt-8 text-center text-gray-500 text-xs">
-                <a href={footerLink} target="_blank" rel="noopener noreferrer">{footerText}</a>
+            <footer
+                className="fixed bottom-0 left-0 w-full bg-white bg-opacity-90 py-2 text-center text-gray-500 text-xs shadow-inner z-10"
+                style={isPwaMode ? { paddingBottom: 'calc(env(safe-area-inset-bottom, 0.5rem) + 1.5rem)' } : {}}
+            >
+                <a href={footerLink} target="_blank" rel="noopener noreferrer" className="active:opacity-70 focus:underline">{footerText}</a>
             </footer>
         </div>
     );

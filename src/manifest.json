@@ -1,6 +1,6 @@
 {
   "name": "Agendamento",
-  "short_name": "agendamento",
+  "short_name": "Agendamento",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
