@@ -5,7 +5,12 @@ import Schedule from './components/Schedule';
 
 export const getCurrentTime = () => {
     const now = new Date();
+    // Debug: log the detected timezone and local time
+    console.log('User timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    console.log('Local time (getHours/getMinutes):', now.getHours(), now.getMinutes());
+    // Always use local time for input type="time" (HH:mm, 24h, zero-padded)
     const pad = (n) => n.toString().padStart(2, '0');
+    // Use getHours/getMinutes to avoid timezone issues
     return `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 };
 
