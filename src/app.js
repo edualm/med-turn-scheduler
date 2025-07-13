@@ -106,6 +106,11 @@ const App = () => {
         }
     }, []);
 
+    // Hide UI until startTime is set to avoid layout shift
+    if (!startTime) {
+        return null;
+    }
+
     // Footer text with current year
     const footerText = `© 2024 - ${new Date().getFullYear()} Eduardo Almeida`;
     const footerLink = "https://eduardo.engineer";
