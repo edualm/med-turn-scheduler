@@ -1,11 +1,11 @@
 {
-  "name": "Med Turn Scheduler",
-  "short_name": "med-turn-scheduler",
+  "name": "Agendamento",
+  "short_name": "agendamento",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fff",
-  "theme_color": "#fff",
+  "background_color": "#1c1c1c",
+  "theme_color": "#1c1c1c",
   "icons": [
     {
       "src": "/assets/icons/android-chrome-192x192.png",

@@ -3,8 +3,14 @@ import TimeInput from './components/TimeInput';
 import PeopleSelector from './components/PeopleSelector';
 import Schedule from './components/Schedule';
 
+const getCurrentTime = () => {
+    const now = new Date();
+    const pad = (n) => n.toString().padStart(2, '0');
+    return `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+};
+
 const App = () => {
-    const [startTime, setStartTime] = useState('');
+    const [startTime, setStartTime] = useState(getCurrentTime());
     const [endTime, setEndTime] = useState('');
     const [numPeople, setNumPeople] = useState(0);
     const [schedule, setSchedule] = useState([]);

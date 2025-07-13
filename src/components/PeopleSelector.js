@@ -3,7 +3,7 @@ import { h } from 'preact';
 const PeopleSelector = ({ numPeople, handleNumPeopleSelection }) => {
     return (
         <div>
-            <h3 className="text-xl font-bold mb-4 text-gray-800">Quantas pessoas?</h3>
+            <h3 className="text-xl font-bold mb-4 text-gray-800">Número de Pessoas:</h3>
             <div className="flex w-full gap-2 mb-6">
                 {[1, 2, 3, 4, 5].map(number => (
                     <button 
