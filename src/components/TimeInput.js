@@ -8,7 +8,7 @@ const TimeInput = ({ startTime, endTime, setStartTime, setEndTime }) => (
         type="time"
         value={startTime}
         onChange={(e) => setStartTime(e.target.value)}
-        className="appearance-none min-h-[2.5rem] w-full p-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-base"
+        className="appearance-none min-h-[2.5rem] w-full p-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-[14px]"
       />
     </div>
     <div className="flex-1">
@@ -17,7 +17,7 @@ const TimeInput = ({ startTime, endTime, setStartTime, setEndTime }) => (
         type="time"
         value={endTime}
         onChange={(e) => setEndTime(e.target.value)}
-        className="appearance-none min-h-[2.5rem] w-full p-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-base"
+        className="appearance-none min-h-[2.5rem] w-full p-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-[14px]"
       />
     </div>
   </div>
