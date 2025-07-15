@@ -4,7 +4,7 @@ const PeopleSelector = ({ numPeople, handleNumPeopleSelection, disabled }) => {
     return (
         <div>
             <h3 className="text-xl font-bold mb-4 text-gray-800">Número de Pessoas:</h3>
-            <div className="flex w-full gap-2 mb-6">
+            <div className="flex w-full gap-2">
                 {[1, 2, 3, 4, 5].map(number => (
                     <button 
                         key={number}
